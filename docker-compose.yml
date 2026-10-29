@@ -1,0 +1,47 @@
+# Installation en une commande :  docker compose up -d   →  http://localhost:8000
+# Sans fichier .env, l'application démarre en mode démo (paiements simulés, compte de démo).
+services:
+  caisse:
+    build:
+      context: .
+      target: app
+    image: caisse-teranga:1.0
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      # Par défaut, accessible seulement depuis cet ordinateur. Pour tester sur un téléphone
+      # du même Wi-Fi : BIND_ADDR=0.0.0.0 dans .env.
+      - "${BIND_ADDR:-127.0.0.1}:${PORT:-8000}:8000"
+    volumes:
+      - caisse-data:/data
+    # Durcissement du conteneur : système de fichiers en lecture seule, aucune capacité Linux,
+    # pas d'élévation de privilèges, ressources bornées.
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 256m
+    pids_limit: 100
+    restart: unless-stopped
+
+  # Optionnel : un LNbits local pour une démo Lightning de bout en bout.
+  #   docker compose --profile lnbits up -d   (voir README › « Vrai paiement Lightning »)
+  lnbits:
+    profiles: ["lnbits"]
+    image: lnbits/lnbits:v1.0.0
+    environment:
+      LNBITS_BACKEND_WALLET_CLASS: FakeWallet
+      LNBITS_DATA_FOLDER: /data
+      HOST: 0.0.0.0
+      PORT: "5000"
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - lnbits-data:/data
+    restart: unless-stopped
+
+volumes:
+  caisse-data:
+  lnbits-data:

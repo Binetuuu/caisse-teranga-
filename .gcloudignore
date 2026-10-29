@@ -1,0 +1,13 @@
+# Fichiers envoyés à Cloud Build : seulement ce qui sert à construire l'image.
+.git
+.gitignore
+.env
+.venv
+data/
+docs/
+tests/__pycache__/
+**/__pycache__/
+.pytest_cache/
+firebase/
+*.md
+*.zip

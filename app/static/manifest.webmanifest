@@ -1,0 +1,15 @@
+{
+  "name": "Caisse Teranga",
+  "short_name": "Teranga",
+  "description": "Encaissez en bitcoin Lightning, simplement.",
+  "lang": "fr",
+  "start_url": "/#/caisse",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#15131f",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "public": "firebase/public",
+    "ignore": ["firebase.json", "**/.*"],
+    "rewrites": [
+      { "source": "**", "run": { "serviceId": "caisse-teranga", "region": "europe-west1" } }
+    ]
+  }
+}
